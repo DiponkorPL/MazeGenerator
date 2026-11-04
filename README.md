@@ -45,7 +45,7 @@ The project uses the Depth-First Search algorithm to generate random mazes.
 Clone the repository:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Python-Maze-Generator.git
+git clone https://github.com/DiponkorPL/MazeGenerator.git
 ```
 
 Navigate to the project directory:
