@@ -1,0 +1,15 @@
+Requirements
+
+Python 3.x
+
+No external libraries are required.
+
+Algorithm
+
+Depth-First Search (DFS) with Backtracking.
+
+Author
+
+Diponkor Pal
+
+GitHub: https://github.com/DiponkorPL
