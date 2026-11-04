@@ -39,12 +39,14 @@ animation_counter = 0
 animation_delay = 2  # Delay in frames between animation steps
 
 def reset_game():
+    global maze, start, goal
     global player, mode, algorithm, status
     global moves, human_start_time, human_elapsed_time
-    global solver_elapsed_time, exlored, path
+    global solver_elapsed_time, explored, path
     global solving, animation_step, animation_counter
 
     maze, start, goal = generator.generate()
+
     player = start
     mode = "Ready"
     algorithm = None
@@ -55,7 +57,7 @@ def reset_game():
     human_elapsed_time = 0.0
     solver_elapsed_time = 0.0
 
-    exlored = []
+    explored = []
     path = []
 
     solving = False
@@ -89,7 +91,8 @@ def move_player(dx,dy):
     if mode != "Human" or status =="You reached the goal!":
         return
     x,y = player
-    nx, ny = x + dx, y + dy
+    nx = x + dx 
+    ny = y + dy
     if 0 <= nx < generator.width and 0 <= ny < generator.height and maze[ny][nx] == 0:
         player = (nx, ny)
         moves += 1
