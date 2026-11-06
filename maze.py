@@ -1,16 +1,16 @@
 import random
 
 
-class Maze_Generator:
-    def __init__(self, diffculty="easy", width=None, height=None):
+class maze_Generator:
+    def __init__(self, difficulty="easy", width=None, height=None):
         if width is not None or height is not None:
             self.width = width if width is not None else 21
             self.height = height if height is not None else self.width
         else:
-            self.set_difficulty(diffculty)
+            self.set_difficulty(difficulty)
 
-    def set_difficulty(self, diffculty):
-        difficulty = (diffculty or "easy").lower()
+    def set_difficulty(self, difficulty):
+        difficulty = (difficulty or "easy").lower()
 
         if difficulty == "easy":
             self.width = 21
