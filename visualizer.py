@@ -482,17 +482,48 @@ class MazeVisualizer:
         x, y = self.start
         center_x = x * self.cell_size + self.cell_size // 2
         center_y = y * self.cell_size + self.cell_size // 2+self.maze_margin
-        points = [
-            (center_x, center_y - 10),
-            (center_x - 10, center_y + 10),
-            (center_x + 10, center_y + 10)
-        ]
+        direction = "up"
+        if self.mode=="AI" and len(self.path) > 1:
+            next_x, next_y = self.path[1]
+            dx = next_x - x
+            dy = next_y - y
+            if dx == 1:
+                direction = "right"
+            elif dx == -1:
+                direction = "left"
+            elif dy == 1:
+                direction = "down"
+            elif dy == -1:
+                direction = "up"
+        if direction == "up":
+            points = [
+                (center_x, center_y - 10),
+                (center_x - 9, center_y + 8),
+                (center_x + 9, center_y + 8)
+            ]
+        elif direction == "down":
+            points = [
+                (center_x, center_y + 10),
+                (center_x - 9, center_y - 8),
+                (center_x + 9, center_y - 8)
+            ]
+        elif direction == "left":
+            points = [
+                (center_x - 10, center_y),
+                (center_x + 8, center_y - 9),
+                (center_x + 8, center_y + 9)
+            ]
+        elif direction == "right":
+            points = [
+                (center_x + 10, center_y),
+                (center_x - 8, center_y - 9),
+                (center_x - 8, center_y + 9)
+            ]
         pygame.draw.polygon(
             self.screen,
             self.start_color,
             points
         )
-
     #* Draw Goal
     def draw_goal(self):
         x, y = self.goal
