@@ -85,3 +85,45 @@ def a_star(maze, start, goal):
     path = reconstruct_path(parent, goal)
     elapsed_time = time.time() - start_time
     return path, explored, elapsed_time
+
+def solve_best_algorithm(maze, start, goal):
+    # Run BFS
+    bfs_path, bfs_explored, bfs_time = bfs(maze, start, goal)
+    # Run A*
+    astar_path, astar_explored, astar_time = a_star(maze, start, goal)
+    # Check if both algorithms found a path
+    if not bfs_path and not astar_path:
+        return [], [], 0, "No Solution"
+    # Store both algorithm results
+    results = []
+    if bfs_path:
+        results.append({
+            "name": "BFS",
+            "path": bfs_path,
+            "explored": bfs_explored,
+            "time": bfs_time
+        })
+    if astar_path:
+        results.append({
+            "name": "A*",
+            "path": astar_path,
+            "explored": astar_explored,
+            "time": astar_time
+        })
+    # Select shortest path first.
+    # If path lengths are equal, select fewer explored cells.
+    # If explored counts are also equal, select faster execution time.
+    best_result = min(
+        results,
+        key=lambda result: (
+            len(result["path"]),
+            len(result["explored"]),
+            result["time"]
+        )
+    )
+    return (
+        best_result["path"],
+        best_result["explored"],
+        best_result["time"],
+        best_result["name"]
+    )

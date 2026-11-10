@@ -1,7 +1,7 @@
 
 import pygame
 import time
-from solver import bfs, a_star
+from solver import bfs, a_star,solve_best_algorithm
 
 
 class MazeVisualizer:
@@ -59,9 +59,8 @@ class MazeVisualizer:
         self.buttons = {
             "New Maze": pygame.Rect(20, 10, 150, 40),
             "Human": pygame.Rect(190, 10, 150, 40),
-            "BFS": pygame.Rect(360, 10, 150, 40),
-            "A*": pygame.Rect(530, 10, 150, 40),
-            "Reset": pygame.Rect(700, 10, 150, 40),
+            "Solve": pygame.Rect(370, 10, 150, 40),
+            "Reset": pygame.Rect(548, 10, 150, 40),
             "Easy": pygame.Rect(20, 60, 120, 35),
             "Medium": pygame.Rect(155, 60, 120, 35),
             "Hard": pygame.Rect(290, 60, 120, 35)
@@ -162,6 +161,27 @@ class MazeVisualizer:
         )
         self.update_maze_layout()
         self.reset_game()
+
+    #* Run both algorithms and select the best result
+    def solve_maze(self):
+        path, explored, elapsed_time, algorithm = solve_best_algorithm(
+            self.maze,
+            self.start,
+            self.goal
+        )
+        self.path = path
+        self.explored = explored
+        self.algorithm = algorithm
+        self.elapsed_time = elapsed_time
+        if not path:
+            self.status = "No solution found!"
+            self.mode = "Ready"
+            return
+        # Start AI visualization
+        self.mode = "AI"
+        self.status = f"{algorithm} selected and solving maze"
+        self.animation_step = 0
+        self.solving = True
 
     # *Human Mode
     def start_human_mode(self):
@@ -285,14 +305,9 @@ class MazeVisualizer:
             (35, 130, 85)
         )
         self.draw_button(
-            "BFS Solve",
-            self.buttons["BFS"],
-            (40, 105, 175)
-        )
-        self.draw_button(
-            "A* Solve",
-            self.buttons["A*"],
-            (125, 75, 175)
+            "Solve",
+            self.buttons["Solve"],
+            (45, 105, 170)
         )
         self.draw_button(
             "Reset",
@@ -311,6 +326,7 @@ class MazeVisualizer:
             f"Time: {self.display_time:.2f}s",
             f"Path Length: {max(0, len(self.path) - 1)}",
             f"Explored: {len(self.explored)}"
+            f"Algorithm: {self.algorithm or 'None'}"
         ]
 
         for i, text in enumerate(info):
@@ -363,10 +379,8 @@ class MazeVisualizer:
                         self.new_maze()
                     elif self.buttons["Human"].collidepoint(mouse_pos):
                         self.start_human_mode()
-                    elif self.buttons["BFS"].collidepoint(mouse_pos):
-                        self.start_ai_solver(bfs, "BFS")
-                    elif self.buttons["A*"].collidepoint(mouse_pos):
-                         self.start_ai_solver(a_star, "A*")
+                    elif self.buttons["Solve"].collidepoint(mouse_pos):
+                        self.solve_maze()
                     elif self.buttons["Reset"].collidepoint(mouse_pos):
                         self.reset_game()
             elif event.type == pygame.KEYDOWN:

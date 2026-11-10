@@ -34,10 +34,10 @@ class maze_Generator:
         maze[start[1]][start[0]] = 0
         stack = [start]
         directions = [
-            (0, 2),
-            (0, -2),
-            (2, 0),
-            (-2, 0),
+            (0, 2), #Down
+            (0, -2), #Up
+            (2, 0), #Right
+            (-2, 0), #Left
         ]
 
         while stack:
